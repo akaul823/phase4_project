@@ -55,6 +55,22 @@ class Car(db.Model, SerializerMixin):
     #Rules
     serialize_rules=("-seller.cars","-transaction.car")
 
+class Specs(db.Model, SerializerMixin):
+
+    __tablename__ = "specs"
+
+    engine = db.Column(db.String, nullable = False)
+    milage = db.Column(db.Integer, nullable = False)
+    hp = db.Column(db.Integer, nullable = False)
+    doors = db.Column(db.Integer, nullable = False)
+    transmission = db.Column(db.String, nullable = False)
+    seats = db.Column(db.Integer, nullable = False)
+    vin_num = db.Column(db.Integer, nullable = False)
+    history = db.Column(db.String, nullable = False)
+    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable = False)
+    mpg = db.Column(db.Integer, nullable = False)
+    energy = db.Column(db.String, nullable = False)
+
 class Transaction(db.Model, SerializerMixin):
     __tablename__="transactions"
 
