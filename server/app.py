@@ -1,9 +1,8 @@
-from config import app,db,fk_connect
+from flask import request, session as flask_session
+from config import app, db
 from models import User, Car, Specs, Transaction
-from flask import request,session as flask_session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import event
-from sqlalchemy import or_
 
 
 
@@ -32,4 +31,5 @@ def cars():
         except (IntegrityError,ValueError) as ie:
             return {"error":ie.args},422
         
+
 

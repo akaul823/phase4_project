@@ -64,6 +64,7 @@ class Car(db.Model, SerializerMixin):
 class Specs(db.Model, SerializerMixin):
     __tablename__ = "specs"
 
+    car_id = db.Column(db.Integer,db.ForeignKey("cars.id"),primary_key=True)
     engine = db.Column(db.String, nullable=False)
     milage = db.Column(db.Integer, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
@@ -72,7 +73,7 @@ class Specs(db.Model, SerializerMixin):
     seats = db.Column(db.Integer, nullable=False)
     vin_num = db.Column(db.Integer, nullable=False)
     history = db.Column(db.String, nullable=False)
-    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
+    # car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
     mpg = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.String, nullable=False)
     car = db.relationship("Car", back_populates="spec")
