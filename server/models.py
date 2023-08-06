@@ -5,85 +5,91 @@ from sqlalchemy.orm import validates
 from sqlalchemy import DateTime
 import re
 
-class User(db.Model, SerializerMixin):
-    __tablename__="users"
 
-    id=db.Column(db.Integer,primary_key=True)
+class User(db.Model, SerializerMixin):
+    __tablename__ = "users"
+    # decided to remove user_type. any user can be as seller as buyer. if anyone adds car to sell, car just shows up in selling list.
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
-    fullname=db.Column(db.String, nullable=False)
-    #User type is either buyer or seller
-    user_type = db.Column(db.String, nullable=False)
+    fullname = db.Column(db.String, nullable=False)
+    # User type is either buyer or seller
+    # user_type = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
-
-class Buyer(User, SerializerMixin):
-    __tablename__="buyers"
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"),primary_key=True)
-    cars = db.Relationship("Car", back_populates="buyer" )
-    transactions = db.Relationship("Transaction", back_populates="buyers")
-
-    serialize_rules = ("-cars.buyer","-transactions.buyers")
+    # Relationships
+    cars = db.Relationship("Cars", back_populates="sellers")
 
 
-class Seller(User, SerializerMixin):
-    __tablename__="sellers"
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"),primary_key=True)
-    cars = db.Relationship("Car", back_populates="seller")
+# class Buyer(User, SerializerMixin):
+#     __tablename__ = "buyers"
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+#     cars = db.Relationship("Car", back_populates="buyer")
+#     transactions = db.Relationship("Transaction", back_populates="buyers")
 
-    serialize_rules = ("-cars.seller",)
+#     serialize_rules = ("-cars.buyer", "-transactions.buyers")
+
+
+# class Seller(User, SerializerMixin):
+#     __tablename__ = "sellers"
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+#     cars = db.Relationship("Car", back_populates="seller")
+
+#     serialize_rules = ("-cars.seller",)
+
 
 class Car(db.Model, SerializerMixin):
+    __tablename__ = "cars"
 
-    __tablename__="cars"
-
-    id=db.Column(db.Integer,primary_key=True)
-    car_make=db.Column(db.String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    car_make = db.Column(db.String, nullable=False)
     car_model = db.Column(db.String, nullable=False)
     listed_price = db.Column(db.Integer, nullable=False)
-    #Status denotes whether the car is for sale or has been sold
+    # Status denotes whether the car is for sale or has been sold
     status = db.Column(db.String, nullable=False)
     pictures = db.Column(db.String, nullable=False)
-    reviews = db.Column(db.String, nullable=False)
-    date = db.Column(db.DateTime) 
-    seller_id = db.Column(db.Integer, db.ForeignKey("sellers.user_id"))
-    #Relationships
-    seller = db.Relationship("Seller", back_populates="cars")
+    description = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime)
+    seller_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # Relationships
+    seller = db.Relationship("User", back_populates="cars")
     transaction = db.Relationship("Transaction", back_populates="car")
 
-    #Rules
-    serialize_rules=("-seller.cars","-transaction.car")
+    # Rules
+    serialize_rules = ("-seller.cars", "-transaction.car")
+
 
 class Specs(db.Model, SerializerMixin):
-
     __tablename__ = "specs"
 
-    engine = db.Column(db.String, nullable = False)
-    milage = db.Column(db.Integer, nullable = False)
-    hp = db.Column(db.Integer, nullable = False)
-    doors = db.Column(db.Integer, nullable = False)
-    transmission = db.Column(db.String, nullable = False)
-    seats = db.Column(db.Integer, nullable = False)
-    vin_num = db.Column(db.Integer, nullable = False)
-    history = db.Column(db.String, nullable = False)
-    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable = False)
-    mpg = db.Column(db.Integer, nullable = False)
-    energy = db.Column(db.String, nullable = False)
+    engine = db.Column(db.String, nullable=False)
+    milage = db.Column(db.Integer, nullable=False)
+    hp = db.Column(db.Integer, nullable=False)
+    doors = db.Column(db.Integer, nullable=False)
+    transmission = db.Column(db.String, nullable=False)
+    seats = db.Column(db.Integer, nullable=False)
+    vin_num = db.Column(db.Integer, nullable=False)
+    history = db.Column(db.String, nullable=False)
+    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
+    mpg = db.Column(db.Integer, nullable=False)
+    energy = db.Column(db.String, nullable=False)
+
 
 class Transaction(db.Model, SerializerMixin):
-    __tablename__="transactions"
+    __tablename__ = "transactions"
 
-    id=db.Column(db.Integer,primary_key=True)
-    price_paid = db.Column(db.Integer, nullable = False)
-    date = db.Column(db.DateTime, nullable = False)
-    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable = False)
-    seller_id = db.Column(db.Integer, db.ForeignKey("sellers.user_id"), nullable = False)
-    buyer_id = db.Column(db.Integer, db.ForeignKey("buyers.user_id"), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    price_paid = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    # car_id. ID of a car which was sold
+    car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
+    # seller's ID must be a value of a collumn seller_id in cars table. because when car gets added, the user who added it
+    # is automatically seller
+    seller_id = db.Column(db.Integer, db.ForeignKey("cars.seller_id"), nullable=False)
+    # buyer's id is a ID of user who clicked BUY NOW xD
+    buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    buyer = db.Relationship("Buyer", back_populates="transactions")
     car = db.Relationship("Car", back_populates="transactions")
 
-    serialize_rules = ("-buyer.transactions","-car.transactions")
-
-
+    serialize_rules = ("-buyer.transactions", "-car.transactions")
