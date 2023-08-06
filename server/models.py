@@ -55,6 +55,7 @@ class Car(db.Model, SerializerMixin):
     # Relationships
     seller = db.Relationship("User", back_populates="cars")
     transaction = db.Relationship("Transaction", back_populates="car")
+    spec = db.relationship("Specs", back_populates="car")
 
     # Rules
     serialize_rules = ("-seller.cars", "-transaction.car")
@@ -74,6 +75,7 @@ class Specs(db.Model, SerializerMixin):
     car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
     mpg = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.String, nullable=False)
+    car = db.relationship("Car", back_populates="spec")
 
 
 class Transaction(db.Model, SerializerMixin):
@@ -86,10 +88,10 @@ class Transaction(db.Model, SerializerMixin):
     car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
     # seller's ID must be a value of a collumn seller_id in cars table. because when car gets added, the user who added it
     # is automatically seller
-    seller_id = db.Column(db.Integer, db.ForeignKey("cars.seller_id"), nullable=False)
+    # seller_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     # buyer's id is a ID of user who clicked BUY NOW xD
     buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     car = db.Relationship("Car", back_populates="transactions")
 
-    serialize_rules = ("-buyer.transactions", "-car.transactions")
+    # serialize_rules = ("-buyer.transactions", "-car.transactions")
