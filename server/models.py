@@ -19,7 +19,7 @@ class User(db.Model, SerializerMixin):
     phone = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
     # Relationships
-    cars = db.Relationship("Cars", back_populates="sellers")
+    cars = db.Relationship("Car", back_populates="seller")
 
 
 # class Buyer(User, SerializerMixin):
@@ -50,7 +50,7 @@ class Car(db.Model, SerializerMixin):
     status = db.Column(db.String, nullable=False)
     pictures = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.DateTime, default=db.func.now())
     seller_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     # Relationships
     seller = db.Relationship("User", back_populates="cars")
@@ -64,6 +64,7 @@ class Car(db.Model, SerializerMixin):
 class Specs(db.Model, SerializerMixin):
     __tablename__ = "specs"
 
+    id = db.Column(db.Integer, primary_key=True)
     engine = db.Column(db.String, nullable=False)
     milage = db.Column(db.Integer, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
@@ -94,6 +95,6 @@ class Transaction(db.Model, SerializerMixin):
     # buyer's id is a ID of user who clicked BUY NOW xD
     buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    car = db.Relationship("Car", back_populates="transactions")
+    car = db.Relationship("Car", back_populates="transaction")
 
     # serialize_rules = ("-buyer.transactions", "-car.transactions")
