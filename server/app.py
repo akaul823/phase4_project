@@ -10,6 +10,7 @@ def home():
     return ""
 
 
+# get all cars or add car in db
 @app.route("/cars", methods=["GET", "POST"])
 def cars():
     if request.method == "GET":
@@ -31,6 +32,8 @@ def cars():
             return {"error": ie.args}, 422
 
 
+# get single car , edit or delete it. checking if car is already sold
+# you wont be allowed to delete it from DB
 @app.route("/cars/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def get_car_by_id(id):
     car = Car.query.filter(Car.id == id).first()
@@ -58,6 +61,7 @@ def get_car_by_id(id):
             return {"message": "Car deleted successfully"}, 200
 
 
+# get or add specs for cars. I dont know if we need get method here
 @app.route("/specs", methods=["GET", "POST"])
 def get_specs():
     if request.method == "GET":
@@ -79,6 +83,10 @@ def get_specs():
             return {"error": ie.args}, 422
 
 
+# get edit or delete specs for single car, same thing, check if car
+# is sold or not, cant edit sold car's specs.
+# P.S. I think we should do that cascade delete, if you delete car, specs should
+# be gone automatically
 @app.route("/specs/<int:car_id>", methods=["GET", "PATCH", "DELETE"])
 def get_specs_by_car_id(car_id):
     specs = Specs.query.filter(Specs.car_id == car_id).first()
