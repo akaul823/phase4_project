@@ -88,6 +88,8 @@ class Transaction(db.Model, SerializerMixin):
     car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
     # seller's ID must be a value of a collumn seller_id in cars table. because when car gets added, the user who added it
     # is automatically seller
+    # we even don't need seller_id, because with relationships between cars and transactions, we can have seller_id
+    # from cars.seller_id
     # seller_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     # buyer's id is a ID of user who clicked BUY NOW xD
     buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
