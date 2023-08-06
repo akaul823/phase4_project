@@ -15,6 +15,11 @@ db=SQLAlchemy(app)
 migrate=Migrate(app,db)
 CORS(app)
 app.secret_key = secret_key
+db.init_app(app)
+
 
 
 SESSION_TYPE="sqlalchemy"
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
