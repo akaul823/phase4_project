@@ -124,3 +124,74 @@ def get_specs_by_car_id(car_id):
         return specs.to_dict(rules=("-car.spec",)), 200
 
 
+@app.route("/users/<int:id>", methods=["GET", "PATCH"])
+def user_page(id):
+    user = User.query.filter(User.id == id).filter()
+    if not user:
+        return {"error": "user not found"}, 404
+    if request.method == "GET":
+        return user.to_dict(), 200
+    elif request.method == "PATCH":
+        data = request.json
+        try:
+            for key in data:
+                setattr(user, key, data[key])
+            db.session.commit()
+            return user.to_dict(), 200
+        except (IntegrityError, ValueError) as ie:
+            return {"error": ie.args}, 422
+
+
+@app.route("/registration", methods=["POST", "DELETE"])
+def user_registration():
+    data = request.json
+    if request.method == "POST":
+        try:
+            new_user = User()
+            print(new_user)
+            for key in data:
+                setattr(new_user, key, data[key])
+            # print(new_user)
+            db.session.add(new_user)
+            db.session.commit()
+            return (
+                new_user.to_dict(
+                    rules=("-_password_hash",),
+                ),
+                201,
+            )
+        except (IntegrityError, ValueError) as ie:
+            return {"error": ie.args}, 422
+    # elif request.method == "DELETE":
+    #     user = User.query.filter(User.id == 3).first()
+    #     db.session.delete(user)
+    #     db.session.commit()
+
+
+@app.route("/session")
+def session():
+    user = User.query.filter(User.id == flask_session.get("user_id")).first()
+    if not user:
+        return {"error": "Please login"}, 401
+    return user.to_dict()
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    print(request.json)
+    errorMsg = {"error": "username/password not on file"}
+    username = request.json.get("username")
+    password = request.json.get("password")
+    user = User.query.filter(User.username == username).first()
+    if not user:
+        return errorMsg, 401
+    if not user.authenticate(password):
+        return errorMsg, 401
+    flask_session["user_id"] = user.id
+    return user.to_dict()
+
+
+@app.route("/logout", methods=["DELETE"])
+def logout():
+    flask_session["user_id"] = None
+    return {}, 204
