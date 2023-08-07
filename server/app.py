@@ -1,44 +1,9 @@
 from flask import request, session as flask_session
-<<<<<<< HEAD
-=======
 from flask import send_from_directory
->>>>>>> 3ba091e9bb74aec0ea6c8e95325db7f88ca8ea3a
 from config import app, db
 from models import User, Car, Specs, Transaction
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import event
-<<<<<<< HEAD
-
-
-
-
-@app.route('/')
-def home():
-    return ''
-
-@app.route("/cars",methods=["GET","POST"])
-def cars():
-    if(request.method=="GET"):
-        all=Car.query.all()
-        cars=[]
-        for car in all:
-            cars.append(car.to_dict())
-        return cars
-    elif(request.method=="POST"):
-        data=request.json
-        car=Car()
-        try:
-            for key in data:
-                setattr(car,key,data[key])
-            db.session.add(car)
-            db.session.commit()
-            return car.to_dict(),201
-        except (IntegrityError,ValueError) as ie:
-            return {"error":ie.args},422
-        
-
-
-=======
 from flask_cors import CORS
 import os
 
@@ -159,9 +124,3 @@ def get_specs_by_car_id(car_id):
         return specs.to_dict(rules=("-car.spec",)), 200
 
 
-@app.route("/imgs/<path:filename>")
-def serve_image(filename):
-    absolute_path = os.path.join("/imgs", filename)
-    print("Serving image from:", absolute_path)
-    return send_from_directory("server/imgs", filename)
->>>>>>> 3ba091e9bb74aec0ea6c8e95325db7f88ca8ea3a
