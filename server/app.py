@@ -142,25 +142,30 @@ def user_page(id):
             return {"error": ie.args}, 422
 
 
-@app.route("/registration", methods=["POST"])
+@app.route("/registration", methods=["POST", "DELETE"])
 def user_registration():
     data = request.json
-    try:
-        new_user = User()
-        print(new_user)
-        for key in data:
-            setattr(new_user, key, data[key])
-        # print(new_user)
-        db.session.add(new_user)
-        db.session.commit()
-        return (
-            new_user.to_dict(
-                rules=("-_password_hash",),
-            ),
-            201,
-        )
-    except (IntegrityError, ValueError) as ie:
-        return {"error": ie.args}, 422
+    if request.method == "POST":
+        try:
+            new_user = User()
+            print(new_user)
+            for key in data:
+                setattr(new_user, key, data[key])
+            # print(new_user)
+            db.session.add(new_user)
+            db.session.commit()
+            return (
+                new_user.to_dict(
+                    rules=("-_password_hash",),
+                ),
+                201,
+            )
+        except (IntegrityError, ValueError) as ie:
+            return {"error": ie.args}, 422
+    # elif request.method == "DELETE":
+    #     user = User.query.filter(User.id == 3).first()
+    #     db.session.delete(user)
+    #     db.session.commit()
 
 
 @app.route("/session")
