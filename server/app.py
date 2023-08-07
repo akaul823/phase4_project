@@ -1,8 +1,13 @@
 from flask import request, session as flask_session
+from flask import send_from_directory
 from config import app, db
 from models import User, Car, Specs, Transaction
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import event
+from flask_cors import CORS
+import os
+
+CORS(app)
 
 
 @app.route("/")
@@ -117,3 +122,10 @@ def get_specs_by_car_id(car_id):
 
     elif request.method == "GET":
         return specs.to_dict(rules=("-car.spec",)), 200
+
+
+@app.route("/imgs/<path:filename>")
+def serve_image(filename):
+    absolute_path = os.path.join("/imgs", filename)
+    print("Serving image from:", absolute_path)
+    return send_from_directory("server/imgs", filename)
