@@ -1,3 +1,4 @@
 /server/secretKeys.py
 node_modules
 .venv
+/server/app.db

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 04df58d2b744
+Revision ID: f80b813d7ba6
 Revises: 
-Create Date: 2023-08-06 14:00:50.721658
+Create Date: 2023-08-07 12:51:53.400708
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '04df58d2b744'
+revision = 'f80b813d7ba6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(), nullable=False),
-    sa.Column('password', sa.String(), nullable=False),
+    sa.Column('_password_hash', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('fullname', sa.String(), nullable=False),
     sa.Column('phone', sa.String(), nullable=False),
@@ -43,7 +43,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('specs',
-    sa.Column('car_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('engine', sa.String(), nullable=False),
     sa.Column('milage', sa.Integer(), nullable=False),
     sa.Column('hp', sa.Integer(), nullable=False),
@@ -52,10 +52,11 @@ def upgrade():
     sa.Column('seats', sa.Integer(), nullable=False),
     sa.Column('vin_num', sa.Integer(), nullable=False),
     sa.Column('history', sa.String(), nullable=False),
+    sa.Column('car_id', sa.Integer(), nullable=False),
     sa.Column('mpg', sa.Integer(), nullable=False),
     sa.Column('energy', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['car_id'], ['cars.id'], ),
-    sa.PrimaryKeyConstraint('car_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('transactions',
     sa.Column('id', sa.Integer(), nullable=False),
