@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import event
 from flask_cors import CORS
 import os
+from sqlalchemy import and_
 
 CORS(app)
 
@@ -168,11 +169,68 @@ def user_registration():
     #     db.session.commit()
 
 
+# @app.route("/transactions/<int:id>", methods=["GET"])
+# def transactions_by_id(id):
+#     if request.method == "GET":
+#         sold_cars = Car.query.filter(
+#             and_(Car.seller_id == flask_session["user_id"], Car.status == "sold")
+#         ).all()
+#         bought_cars = Transaction.query.filter(Transaction.buyer_id == id).all()
+#         transactions = []
+#         # for sold_Car,bought_car in sold_cars,bought_cars:
+
+#         for transaction in sold_cars:
+#             transactions.append(transaction.to_dict())
+#         for transaction in bought_cars:
+#             transactions.append(transaction.to_dict(rules=("-car.transaction",)))
+#         return transactions
+
+
+@app.route("/transactions", methods=["GET", "POST"])
+def transactions():
+    if request.method == "POST":
+        data = request.json
+        print(data["price_paid"])
+
+        if (
+            data["price_paid"]
+            != Car.query.filter(Car.id == data.get("car_id")).first().listed_price
+        ):
+            return {"error": "This price does not match the listed price"}, 403
+        transaction = Transaction()
+        try:
+            for key in data:
+                setattr(transaction, key, data[key])
+            db.session.add(transaction)
+            db.session.commit()
+            return transaction.to_dict(), 201
+        except (IntegrityError, ValueError) as ie:
+            return {"error": ie.args}, 422
+    elif request.method == "GET":
+        print("---------------------------", flask_session["user_id"])
+        sold_cars = Car.query.filter(
+            and_(Car.seller_id == flask_session["user_id"], Car.status == "selling")
+        ).all()
+        bought_cars = Transaction.query.filter(
+            Transaction.buyer_id == flask_session["user_id"]
+        ).all()
+        transactions = []
+        print(sold_cars)
+        if sold_cars:
+            for transaction in sold_cars:
+                transactions.append(transaction.to_dict(rules=("-car.transaction",)))
+        if bought_cars:
+            for transaction in bought_cars:
+                transactions.append(transaction.to_dict(rules=("-car.transaction",)))
+        return transactions
+
+
 @app.route("/session")
 def session():
     user = User.query.filter(User.id == flask_session.get("user_id")).first()
     if not user:
         return {"error": "Please login"}, 401
+    print(flask_session["user_id"])
     return user.to_dict()
 
 
