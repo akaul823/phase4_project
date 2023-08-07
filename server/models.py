@@ -217,7 +217,7 @@ class Transaction(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     price_paid = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, default= db.func.now(),nullable=False)
     # car_id. ID of a car which was sold
     car_id = db.Column(db.Integer, db.ForeignKey("cars.id"), nullable=False)
     # seller's ID must be a value of a collumn seller_id in cars table. because when car gets added, the user who added it

@@ -14,6 +14,34 @@ CORS(app)
 def home():
     return ""
 
+@app.route("/transactions/<int:id>", methods=['GET'])
+def transactions_by_id(id):
+    if request.method == "GET":
+        all = Transaction.query.filter(id = Transaction.car.seller_id).all()
+        transactions = []
+        for transaction in all:
+            transactions.append(transaction.to_dict())
+        return transactions
+    
+@app.route("/transactions", methods=['POST'])
+def transactions():
+    if request.method == "POST":
+        data = request.json
+        print(data['price_paid'])
+
+        if data['price_paid'] != Car.query.filter(Car.id==data.get('car_id')).first().listed_price:
+            return {"error":"This price does not match the listed price"}, 403
+        transaction = Transaction()
+        try:
+            for key in data:
+                setattr(transaction, key, data[key])
+            db.session.add(transaction)
+            db.session.commit()
+            return transaction.to_dict(), 201
+        except (IntegrityError, ValueError) as ie:
+            return {"error": ie.args}, 422
+
+
 
 # get all cars or add car in db
 @app.route("/cars", methods=["GET", "POST"])
