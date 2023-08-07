@@ -6,11 +6,15 @@ name = "pypi"
 [packages]
 sqlalchemy-serializer = "*"
 "sqlalchemy.orm" = "*"
+<<<<<<< HEAD
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-cors = "*"
 flask-bcrypt = "*"
 flask = "*"
+=======
+flask-bcrypt = "*"
+>>>>>>> 3ba091e9bb74aec0ea6c8e95325db7f88ca8ea3a
 
 [dev-packages]
 

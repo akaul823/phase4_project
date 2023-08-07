@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@headlessui/react": "^1.7.16",
+    "@heroicons/react": "^2.0.18",
+    "bcrypto": "^5.4.0",
+    "next-auth": "^4.22.4"
+  }
+}
