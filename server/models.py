@@ -1,9 +1,10 @@
-from config import db
+from config import db, flask_bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy import DateTime
 import re
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class User(db.Model, SerializerMixin):
@@ -11,7 +12,7 @@ class User(db.Model, SerializerMixin):
     # decided to remove user_type. any user can be as seller as buyer. if anyone adds car to sell, car just shows up in selling list.
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
+    _password_hash = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     fullname = db.Column(db.String, nullable=False)
     # User type is either buyer or seller
@@ -20,6 +21,21 @@ class User(db.Model, SerializerMixin):
     address = db.Column(db.String, nullable=False)
     # Relationships
     cars = db.Relationship("Car", back_populates="seller")
+
+    @hybrid_property
+    def password_hash(self):
+        raise ValueError("Password hash is private")
+
+    @password_hash.setter
+    def password_hash(self, password):
+        self._password_hash = flask_bcrypt.generate_password_hash(password).decode(
+            "utf-8"
+        )
+
+    def authenticate(self, password):
+        return flask_bcrypt.check_password_hash(self._password_hash, password)
+
+    serialize_rules = ("-_password_hash",)
 
 
 # class Buyer(User, SerializerMixin):
