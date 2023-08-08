@@ -3,6 +3,8 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Register from "./Register";
+import { useState } from "react";
 
 const navigation = [
   { name: "Car Market", href: "/", current: true },
@@ -16,6 +18,11 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const [showComponent, setShowComponent] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowComponent(true);
+  };
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -60,7 +67,21 @@ export default function Example() {
                       </a>
                     ))}
                   </div>
+                  <div></div>
                 </div>
+              </div>
+              <div>
+                <Link href="/Register">
+                  {" "}
+                  {/* Replace "/register" with the actual route you want */}
+                  <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
+                    Register
+                  </a>
+                </Link>
+                {/* Render Register component if showComponent is true */}
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
+                  Log In
+                </button>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
