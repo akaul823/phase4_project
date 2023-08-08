@@ -6,23 +6,46 @@ import Link from "next/link";
 import Register from "./Register";
 import { useState } from "react";
 
-const navigation = [
-  { name: "Car Market", href: "/", current: true },
-  { name: "Sell Car", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
+
+// const navigation = [
+//   { name: "Car Market", href: "/", current: true },
+//   { name: "Sell Car", href: "/SellCar", current: false },
+//   { name: "Projects", href: "#", current: false },
+//   { name: "Calendar", href: "#", current: false },
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 
 export default function Example() {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
     setShowComponent(true);
+
   };
+  const [navigation, setNavigation]=useState([
+    { name: "Car Market", href: "/", current: true },
+    { name: "Sell Car", href: "/SellCar", current: false },
+    { name: "Projects", href: "#", current: false },
+    { name: "Calendar", href: "#", current: false },
+  ])
+  function handle(item){
+    let copy=[...navigation]
+    for (let i = 0; i < copy.length; i++){
+      if (copy[i].current === true){
+        copy[i].current = false;
+      }
+      if (copy[i]===item){
+        copy[i].current= true;
+      }
+    
+    }
+    setNavigation(copy)
+    console.log(copy)
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -55,6 +78,7 @@ export default function Example() {
                       <a
                         key={item.name}
                         href={item.href}
+                        onClick={(item) => handle(item)}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"

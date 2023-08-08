@@ -256,6 +256,7 @@ def cars():
         return cars
     elif request.method == "POST":
         data = request.json
+        print(data)
         car = Car()
         try:
             for key in data:

@@ -63,7 +63,7 @@ class Car(db.Model, SerializerMixin):
     car_model = db.Column(db.String, nullable=False)
     listed_price = db.Column(db.Integer, nullable=False)
     # Status denotes whether the car is for sale or has been sold
-    status = db.Column(db.String, nullable=False)
+    status = db.Column(db.String, default = "selling", nullable=False)
     pictures = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=db.func.now())
