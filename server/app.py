@@ -248,7 +248,7 @@ def login():
     if not user.authenticate(password):
         return errorMsg, 401
     flask_session["user_id"] = user.id
-    return user.to_dict()
+    return user.to_dict(rules=("-cars",))
 
 
 @app.route("/logout", methods=["DELETE"])

@@ -1,5 +1,5 @@
 import "@styles/globals.css";
-import Nav from "../components/Nav";
+import Nav from "./Nav/Nav";
 
 export const metadata = {
   title: "Cars",
