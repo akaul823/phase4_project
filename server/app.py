@@ -127,7 +127,7 @@ def get_specs_by_car_id(car_id):
 
 @app.route("/users/<int:id>", methods=["GET", "PATCH"])
 def user_page(id):
-    user = User.query.filter(User.id == id).filter()
+    user = User.query.filter(User.id == id).first()
     if not user:
         return {"error": "user not found"}, 404
     if request.method == "GET":
@@ -146,13 +146,14 @@ def user_page(id):
 @app.route("/registration", methods=["POST", "DELETE"])
 def user_registration():
     data = request.json
+    print(data)
     if request.method == "POST":
         try:
             new_user = User()
-            print(new_user)
+            # print(new_user)
             for key in data:
                 setattr(new_user, key, data[key])
-            # print(new_user)
+            # print(new_user.password)
             db.session.add(new_user)
             db.session.commit()
             return (
@@ -162,6 +163,7 @@ def user_registration():
                 201,
             )
         except (IntegrityError, ValueError) as ie:
+            print(ie)
             return {"error": ie.args}, 422
     # elif request.method == "DELETE":
     #     user = User.query.filter(User.id == 3).first()
