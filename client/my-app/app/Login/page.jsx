@@ -16,9 +16,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
 export default function Login() {
-  const auth = useAuth();
-  console.log(auth);
-  const { logIn } = useAuth();
+  // const auth = useAuth();
+  // console.log(auth);
+  // const { logIn } = useAuth();
   const [logInUser, setLogInUser] = useState({});
 
   // const [logInUser, setLogInUser] = useState({ username: '', password: '' });
@@ -45,8 +45,8 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((user) => {
-        // console.log(user);
-        logIn(user);
+        console.log(user);
+        // logIn(user);
         if (user) {
           console.log(user);
         } else {
@@ -60,14 +60,6 @@ export default function Login() {
 
   return (
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full">
-          ```
-        */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img

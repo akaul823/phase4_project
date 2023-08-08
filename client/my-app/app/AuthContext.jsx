@@ -13,6 +13,17 @@ export const AuthProvider = ({ children }) => {
   const logOut = () => {
     setLoggedInUser(null);
   };
+  fetch("127.0.0.1:5555/session")
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((user) => {
+      if (user) {
+        setLoggedInUser(user);
+      }
+    });
 
   return (
     <AuthContext.Provider value={{ loggedInUser, logIn, logOut }}>
