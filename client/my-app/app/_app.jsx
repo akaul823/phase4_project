@@ -1,10 +1,19 @@
-import { AuthProvider } from "./AuthContext";
+import { UserProvider } from "./UserContext";
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      {/* Rest of your layout or app components */}
+    <UserProvider>
       <Component {...pageProps} />
-    </AuthProvider>
+    </UserProvider>
   );
 }
+// import { AuthProvider } from "./AuthContext";
+
+// export default function MyApp({ Component, pageProps }) {
+//   return (
+//     <AuthProvider>
+//       {/* Rest of your layout or app components */}
+//       <Component {...pageProps} />
+//     </AuthProvider>
+//   );
+// }

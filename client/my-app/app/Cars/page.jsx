@@ -34,7 +34,9 @@ export default function Example() {
   useEffect(() => {
     async function fetchCars() {
       try {
-        const response = await fetch("http://127.0.0.1:5555/cars");
+        const response = await fetch("http://127.0.0.1:5555/cars", {
+          credentials: "include",
+        });
         if (response.ok) {
           const data = await response.json();
           setCars(data);

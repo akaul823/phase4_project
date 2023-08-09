@@ -7,8 +7,11 @@ from sqlalchemy import event
 from flask_cors import CORS
 import os
 from sqlalchemy import and_
+from random import randrange
 
-CORS(app)
+# CORS(app)
+
+GLOBAL_SESSIONS = set()
 
 
 @app.route("/")
@@ -20,6 +23,11 @@ def home():
 @app.route("/cars", methods=["GET", "POST"])
 def cars():
     if request.method == "GET":
+        print(flask_session)
+        if flask_session["session_id"] not in GLOBAL_SESSIONS:
+            # if not user:
+            return {"error": "Please login"}, 401
+
         all = Car.query.all()
         cars = []
         for car in all:
@@ -27,10 +35,12 @@ def cars():
         return cars
     elif request.method == "POST":
         data = request.json
+        print(data)
         car = Car()
         try:
             for key in data:
                 setattr(car, key, data[key])
+            print(car.listed_price)
             db.session.add(car)
             db.session.commit()
             return car.to_dict(rules=("-spec.car",)), 201
@@ -248,10 +258,13 @@ def login():
     if not user.authenticate(password):
         return errorMsg, 401
     flask_session["user_id"] = user.id
+    flask_session["session_id"] = randrange(0, 1e18)
+    GLOBAL_SESSIONS.add(flask_session["session_id"])
     return user.to_dict(rules=("-cars",))
 
 
 @app.route("/logout", methods=["DELETE"])
 def logout():
     flask_session["user_id"] = None
+    GLOBAL_SESSIONS.remove(flask_session["session_id"])
     return {}, 204

@@ -1,25 +1,17 @@
 "use client";
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import { createContext, useContext } from "react";
 import { useState, useEffect } from "react";
-import { useAuth } from "../AuthContext";
+import { UserContext } from "../UserContext";
+import { UserProvider } from "../UserContext";
 export default function Login() {
   // const auth = useAuth();
   // console.log(auth);
-  // const { logIn } = useAuth();
+  // console.log(useUser());
+
+  // const { setLoggedInUser } = useContext(UserContext);
+
   const [logInUser, setLogInUser] = useState({});
+  // const [loggedInUser, setLoggedInUser] = useState(null);
 
   // const [logInUser, setLogInUser] = useState({ username: '', password: '' });
 
@@ -34,28 +26,30 @@ export default function Login() {
     }));
     console.log(logInUser);
   }
-  function handleLogIn(e) {
+  async function handleLogIn(e) {
     e.preventDefault();
-    fetch("http://127.0.0.1:5555/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(logInUser),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        console.log(user);
-        // logIn(user);
-        if (user) {
-          console.log(user);
-        } else {
-          // Handle error response
-        }
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the fetch
+
+    try {
+      const response = await fetch("http://127.0.0.1:5555/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(logInUser),
       });
+
+      if (response.ok) {
+        const user = await response.json();
+        console.log(response);
+        console.log(user);
+        // setLoggedInUser(user);
+      } else {
+        // Handle error response
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

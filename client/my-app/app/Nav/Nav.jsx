@@ -8,11 +8,10 @@ import { useState } from "react";
 
 const navigation = [
   { name: "Car Market", href: "/", current: true },
-  { name: "Sell Car", href: "#", current: false },
+  { name: "Sell Car", href: "/SellCar", current: false },
   { name: "Projects", href: "#", current: false },
   { name: "Calendar", href: "#", current: false },
 ];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -132,7 +131,7 @@ export default function Example() {
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Your Profile
+                            <Link href="/ProfilePage">Your Profile</Link>
                           </a>
                         )}
                       </Menu.Item>
