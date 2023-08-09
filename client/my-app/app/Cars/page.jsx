@@ -28,7 +28,8 @@ const products = [
   // More products...
 ];
 
-export default function Example() {
+export default function Cars({search}) {
+  const [filteredCars, setFilteredCars] = useState([]);
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
@@ -50,6 +51,13 @@ export default function Example() {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    const filteredResults = cars.filter(car =>
+      (car.car_make + " " + car.car_model).toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredCars(filteredResults);
+  }, [search, cars]);
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -58,7 +66,7 @@ export default function Example() {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {cars.map((car) => (
+          {filteredCars.map((car) => (
             <div key={car.id} className="group relative">
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img

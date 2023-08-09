@@ -1,8 +1,6 @@
 "use client";
 import Nav from "../components/Nav";
-import Cars from "../components/Cars";
 import Search from "../components/Search";
-import { useState } from "react";
 import Cars from "./Cars/page";
 import { useState, useNavigate } from "react";
 
@@ -11,7 +9,7 @@ const Home = () => {
   return (
     <div>
       <Search setSearch={setSearch} search={search} />
-      <Cars />
+      <Cars search={search} />
     </div>
   );
 };
