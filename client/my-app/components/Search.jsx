@@ -17,6 +17,7 @@
 
 // export default Search;
 import React from "react";
+import { useState } from "react";
 
 function Search({ search, setSearch }) {
   return (
