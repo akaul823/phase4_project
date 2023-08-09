@@ -243,7 +243,7 @@ def session():
     if not user:
         return {"error": "Please login"}, 401
     print(flask_session["user_id"])
-    return user.to_dict()
+    return user.to_dict(rules=("-cars",))
 
 
 @app.route("/login", methods=["POST"])

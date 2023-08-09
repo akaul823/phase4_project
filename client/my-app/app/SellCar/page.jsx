@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 export default function SellCar() {
   const [carData, setCarData] = useState({});
   const [specData, setSpecData] = useState({});
+  const [userId, setUserId] = useState(0);
   //   const router = useRouter();
 
   function handleSpecData(e) {
@@ -47,9 +48,38 @@ export default function SellCar() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
+    async function fetchAndSetUserId() {
+      try {
+        const response = await fetch("http://127.0.0.1:5555/session", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          const user = await response.json();
+          if (user) {
+            console.log(user.id);
+            // setUserId(user.id);
+            carData.seller_id = user.id;
+            console.log(carData);
+          } else {
+            console.error("No user data found");
+          }
+        } else {
+          console.error("Error fetching data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
+      // Code that continues after fetching and updating state
+      console.log("Fetch and state update complete.");
+    }
+
+    // Call the function to initiate fetching and state update
+    fetchAndSetUserId();
     carData.pictures = "asdasd";
     carData.description = "akjsdhf";
-    carData.seller_id = 1;
     console.log(carData);
     fetch("http://127.0.0.1:5555/cars", {
       method: "POST",
