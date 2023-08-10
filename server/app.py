@@ -75,6 +75,8 @@ def get_car_by_id(id):
         except (IntegrityError, ValueError) as ie:
             return {"error": ie.args}, 422
     elif request.method == "DELETE":
+        db.session.delete(car)
+        db.session.commit()
         if car.status == "sold":
             return {"error": "can't delete sold car"}, 403
         else:
@@ -147,14 +149,14 @@ def user_page(id):
     if not user:
         return {"error": "user not found"}, 404
     if request.method == "GET":
-        return user.to_dict(rules=("-cars",)), 200
+        return user.to_dict(), 200
     elif request.method == "PATCH":
         data = request.json
         try:
             for key in data:
                 setattr(user, key, data[key])
             db.session.commit()
-            return user.to_dict(rules=("-cars",)), 200
+            return user.to_dict(), 200
         except (IntegrityError, ValueError) as ie:
             return {"error": ie.args}, 422
 
@@ -272,12 +274,13 @@ def login():
 @app.route("/logout", methods=["DELETE"])
 def logout():
     flask_session["user_id"] = None
+    print(flask_session["session_id"])
     GLOBAL_SESSIONS.remove(flask_session["session_id"])
     return {}, 204
 
 
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+# def allowed_file(filename):
+#     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # @app.route("/photos", methods=["GET", "POST"])

@@ -11,14 +11,12 @@ export default function Login() {
 
   function handleUsername(e) {
     setLogInUser((prevUser) => ({ ...prevUser, username: e.target.value }));
-    console.log(logInUser);
   }
   function handlePassword(e) {
     setLogInUser((prevUser) => ({
       ...prevUser,
       password: e.target.value,
     }));
-    console.log(logInUser);
   }
   async function handleLogIn(e) {
     e.preventDefault();
@@ -38,7 +36,7 @@ export default function Login() {
         setLoggedInUser(user);
         router.push("/");
       } else {
-        // Handle error response
+        alert(`Username or Password Is Wrong!!!`);
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +49,7 @@ export default function Login() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            src="https://i.pinimg.com/1200x/50/cd/ca/50cdca2005c83652e0a1b807b8a95aac.jpg"
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
