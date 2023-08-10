@@ -1,11 +1,7 @@
+"use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import CarLink from "./CarLink"; // Import your CarLink component
 
-export default function CarDetail() {
-  const router = useRouter();
-  const { id } = router.query;
-
+export default function CarDetail({ params: { id } }) {
   const [car, setCar] = useState(null);
 
   useEffect(() => {
