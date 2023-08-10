@@ -1,22 +1,11 @@
 "use client";
-import { createContext, useContext } from "react";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { useState } from "react";
 import { UserContext } from "../UserContext";
-import { UserProvider } from "../UserContext";
-import { useRouter } from "next/router";
 
 export default function Login() {
-  // const auth = useAuth();
-  // console.log(auth);
-  // console.log(useUser());
-
-  // const { setLoggedInUser } = useContext(UserContext);
-
+  const { setLoggedInUser } = useContext(UserContext);
   const [logInUser, setLogInUser] = useState({});
-  // const router = useRouter();
-  // const [loggedInUser, setLoggedInUser] = useState(null);
-
-  // const [logInUser, setLogInUser] = useState({ username: '', password: '' });
 
   function handleUsername(e) {
     setLogInUser((prevUser) => ({ ...prevUser, username: e.target.value }));
@@ -44,10 +33,8 @@ export default function Login() {
 
       if (response.ok) {
         const user = await response.json();
-        console.log(response);
-        console.log(user);
+        setLoggedInUser(user);
         // router.push("/");
-        // setLoggedInUser(user);
       } else {
         // Handle error response
       }

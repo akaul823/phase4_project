@@ -14,25 +14,12 @@
 */
 import { useState, useEffect } from "react";
 import CarLink from "./car";
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  // More products...
-];
 
 export default function Example() {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    async function fetchCars() {
+    async function fetchData() {
       try {
         const response = await fetch("http://127.0.0.1:5555/cars", {
           credentials: "include",
@@ -40,7 +27,6 @@ export default function Example() {
         if (response.ok) {
           const data = await response.json();
           setCars(data);
-          console.log(data);
         } else {
           console.error("Error fetching data");
         }
@@ -48,8 +34,7 @@ export default function Example() {
         console.error("Error fetching data:", error);
       }
     }
-
-    fetchCars();
+    fetchData();
   }, []);
 
   return (

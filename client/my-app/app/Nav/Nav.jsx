@@ -30,7 +30,10 @@ export default function Example() {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button
+                  id={1}
+                  className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                >
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -51,7 +54,7 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
@@ -63,27 +66,25 @@ export default function Example() {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                   <div></div>
                 </div>
               </div>
               <div>
-                <Link href="/Register">
-                  {" "}
-                  {/* Replace "/register" with the actual route you want */}
-                  <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
-                    Register
-                  </a>
+                <Link
+                  href="/Register"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full"
+                >
+                  Register
                 </Link>
                 {/* Render Register component if showComponent is true */}
-                <Link href="/Login">
-                  {" "}
-                  {/* Replace "/Log in" with the actual route you want */}
-                  <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
-                    Log In
-                  </a>
+                <Link
+                  href="/Login"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full"
+                >
+                  Log In
                 </Link>
                 {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
                   Log In
@@ -102,7 +103,10 @@ export default function Example() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button
+                      id={1}
+                      className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <img
