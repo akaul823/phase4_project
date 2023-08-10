@@ -2,10 +2,12 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { UserContext } from "../UserContext";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { setLoggedInUser } = useContext(UserContext);
   const [logInUser, setLogInUser] = useState({});
+  const router = useRouter();
 
   function handleUsername(e) {
     setLogInUser((prevUser) => ({ ...prevUser, username: e.target.value }));
@@ -34,7 +36,7 @@ export default function Login() {
       if (response.ok) {
         const user = await response.json();
         setLoggedInUser(user);
-        // router.push("/");
+        router.push("/");
       } else {
         // Handle error response
       }
