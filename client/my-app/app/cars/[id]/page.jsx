@@ -47,6 +47,7 @@ export default function CarDetail({ params: { id } }) {
         <p className="text-gray-600 mb-4">Description: {car.description}</p>
 
         <div className="mt-6">
+          
         <h2 className="text-xl font-semibold mb-2">Specifications</h2>
           <p>Doors: {car.spec[0].doors}</p>
           <p>Energy: {car.spec[0].energy}</p>
