@@ -17,9 +17,11 @@ def fk_connect(conn, conn_record):
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SESSION_COOKIE_SAMESITE"] = "None"
+app.config["SESSION_COOKIE_SECURE"] = "True"
 flask_bcrypt = Bcrypt(app)
 app.secret_key = secret_key
-CORS(app)
+CORS(app, supports_credentials=True)
 # app.json.compact = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

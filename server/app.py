@@ -236,8 +236,10 @@ from sqlalchemy import event
 from flask_cors import CORS
 import os
 from sqlalchemy import and_
+from random import randrange
 
-CORS(app)
+# CORS(app)
+GLOBAL_SESSIONS = set()
 
 
 @app.route("/")
@@ -478,10 +480,17 @@ def login():
     if not user.authenticate(password):
         return errorMsg, 401
     flask_session["user_id"] = user.id
+    flask_session["session_id"] = randrange(0, 1e18)
+    GLOBAL_SESSIONS.add(flask_session["session_id"])
     return user.to_dict(rules=("-cars",))
 
 
 @app.route("/logout", methods=["DELETE"])
 def logout():
     flask_session["user_id"] = None
+    GLOBAL_SESSIONS.remove(flask_session["session_id"])
     return {}, 204
+
+
+# def allowed_file(filename):
+#     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS

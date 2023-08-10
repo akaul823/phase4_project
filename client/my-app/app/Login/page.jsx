@@ -1,27 +1,13 @@
 "use client";
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { useState, useEffect } from "react";
-import { useAuth } from "../AuthContext";
-export default function Login() {
-  // const auth = useAuth();
-  // console.log(auth);
-  // const { logIn } = useAuth();
-  const [logInUser, setLogInUser] = useState({});
+import { useContext } from "react";
+import { useState } from "react";
+import { UserContext } from "../UserContext";
+import { useRouter } from "next/navigation";
 
-  // const [logInUser, setLogInUser] = useState({ username: '', password: '' });
+export default function Login() {
+  const { setLoggedInUser } = useContext(UserContext);
+  const [logInUser, setLogInUser] = useState({});
+  const router = useRouter();
 
   function handleUsername(e) {
     setLogInUser((prevUser) => ({ ...prevUser, username: e.target.value }));
@@ -34,28 +20,29 @@ export default function Login() {
     }));
     console.log(logInUser);
   }
-  function handleLogIn(e) {
+  async function handleLogIn(e) {
     e.preventDefault();
-    fetch("http://127.0.0.1:5555/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(logInUser),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        console.log(user);
-        // logIn(user);
-        if (user) {
-          console.log(user);
-        } else {
-          // Handle error response
-        }
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the fetch
+
+    try {
+      const response = await fetch("http://127.0.0.1:5555/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(logInUser),
       });
+
+      if (response.ok) {
+        const user = await response.json();
+        setLoggedInUser(user);
+        router.push("/");
+      } else {
+        // Handle error response
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
