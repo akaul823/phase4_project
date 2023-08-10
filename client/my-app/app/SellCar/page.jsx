@@ -1,12 +1,13 @@
 "use client";
-
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 export default function SellCar() {
   const [carData, setCarData] = useState({});
   const [specData, setSpecData] = useState({});
   const [userId, setUserId] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
   //   const router = useRouter();
 
   function handleSpecData(e) {
@@ -45,6 +46,34 @@ export default function SellCar() {
       car_id: parseInt(id),
     });
   }
+
+  // PICTURE UPLOAD
+  // async function uploadFile(file) {
+  //   if (!file) {
+  //     console.error("No file selected");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     const response = await axios.post("http://127.0.0.1:5555/", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     if (response.status === 200) {
+  //       console.log("File uploaded successfully");
+  //       // Handle successful upload
+  //     } else {
+  //       console.error("Error uploading file");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //   }
+  // }
   function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -75,10 +104,10 @@ export default function SellCar() {
       // Code that continues after fetching and updating state
       console.log("Fetch and state update complete.");
     }
-
+    // uploadFile(selectedFile);
     // Call the function to initiate fetching and state update
     fetchAndSetUserId();
-    carData.pictures = "asdasd";
+    // carData.pictures = "asdasd";
     carData.description = "akjsdhf";
     console.log(carData);
     fetch("http://127.0.0.1:5555/cars", {
@@ -92,6 +121,7 @@ export default function SellCar() {
       .then((res) => res.json())
       .then((car) => {
         console.log(car);
+        console.log("________________________");
         // updateSellerID(car.id)
         specData.car_id = car.id;
         console.log(specData);
@@ -189,14 +219,68 @@ export default function SellCar() {
                 </div>
               </div>
             </div>
-
+            {/* <div className="col-span-full">
+              <label
+                htmlFor="cover-photo"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Car Photo
+              </label>
+              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div className="text-center">
+                  <PhotoIcon
+                    className="mx-auto h-12 w-12 text-gray-300"
+                    aria-hidden="true"
+                  />
+                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                    <label
+                      htmlFor="file-upload"
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                    >
+                      <span>Upload a file</span>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        className="sr-only"
+                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                      />
+                    </label>
+                    <p className="pl-1">or drag and drop</p>
+                  </div>
+                  <p className="text-xs leading-5 text-gray-600">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>
+              </div>
+            </div>{" "} */}
             {/* <label
             htmlFor="specs"
             className="block text-sm font-large leading-6 text-gray-900"
         >
             Specs
         </label> */}
+
             <div className="specsDiv">
+              <div>
+                <label
+                  htmlFor="engine"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Photo URL
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="pictures"
+                    name="pictures"
+                    type="text"
+                    autoComplete="pictures"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={handleCarData}
+                  />
+                </div>
+              </div>
               <div>
                 <label
                   htmlFor="engine"

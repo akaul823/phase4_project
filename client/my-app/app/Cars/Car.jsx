@@ -6,7 +6,7 @@ function CarLink({ car }) {
       <div className="group relative">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
           <img
-            src={`http://127.0.0.1:5555/static${car.pictures}/1.jpeg`}
+            src={car.pictures}
             alt={car.car_make + car.car_model}
             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
           />

@@ -4,10 +4,38 @@ import { useState, useEffect } from "react";
 
 export default function ProfilePage() {
   const [user, setUser] = useState({});
+  const [userId, setUserId] = useState(0);
+
   useEffect(() => {
+    async function fetchAndSetUserId() {
+      try {
+        const response = await fetch("http://127.0.0.1:5555/session", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          const user = await response.json();
+          if (user) {
+            console.log(user.id);
+            // setUserId(user.id);
+            setUserId(user.id);
+            // console.log(carData);
+          } else {
+            console.error("No user data found");
+          }
+        } else {
+          console.error("Error fetching data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      console.log("Fetch and state update complete.");
+    }
+    fetchAndSetUserId();
     async function getUser() {
       try {
-        const response = await fetch("http://127.0.0.1:5555/users/5", {
+        const response = await fetch(`http://127.0.0.1:5555/users/${userId}`, {
           credentials: "include",
         });
         if (response.ok) {
@@ -22,7 +50,7 @@ export default function ProfilePage() {
       }
     }
     getUser();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="flex justify-center items-center h-screen">

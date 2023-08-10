@@ -3,6 +3,8 @@ import { createContext, useContext } from "react";
 import { useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { UserProvider } from "../UserContext";
+import { useRouter } from "next/router";
+
 export default function Login() {
   // const auth = useAuth();
   // console.log(auth);
@@ -11,6 +13,7 @@ export default function Login() {
   // const { setLoggedInUser } = useContext(UserContext);
 
   const [logInUser, setLogInUser] = useState({});
+  // const router = useRouter();
   // const [loggedInUser, setLoggedInUser] = useState(null);
 
   // const [logInUser, setLogInUser] = useState({ username: '', password: '' });
@@ -43,6 +46,7 @@ export default function Login() {
         const user = await response.json();
         console.log(response);
         console.log(user);
+        // router.push("/");
         // setLoggedInUser(user);
       } else {
         // Handle error response
