@@ -1,7 +1,7 @@
 "use client";
 import Nav from "../components/Nav";
 import Search from "../components/Search";
-import Cars from "./Cars/page";
+import Cars from "./cars/page";
 import { useState, useNavigate } from "react";
 
 const Home = () => {

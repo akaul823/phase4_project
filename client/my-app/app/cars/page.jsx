@@ -16,7 +16,7 @@
 import { useState, useEffect } from "react";
 import CarLink from "./CarLink";
 
-export default function Cars({search}) {
+export default function Example({search}) {
   const [filteredCars, setFilteredCars] = useState([]);
   const [cars, setCars] = useState([]);
 
