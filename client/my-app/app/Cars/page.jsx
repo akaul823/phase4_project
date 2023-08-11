@@ -18,7 +18,11 @@ export default function Example() {
         });
         if (response.ok) {
           const data = await response.json();
-          const sellingCars = data.filter((car) => car.status === "selling");
+          const sellingCars = data.filter(
+            (car) =>
+              car.status === "selling" && car.seller_id !== loggedInUser.id
+          );
+
           setCars(sellingCars);
         } else {
           console.error("Error fetching data");
