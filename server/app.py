@@ -212,7 +212,7 @@ def transactions():
     if request.method == "POST":
         data = request.json
         print(data["price_paid"])
-
+        print(data)
         if (
             data["price_paid"]
             != Car.query.filter(Car.id == data.get("car_id")).first().listed_price
@@ -222,6 +222,11 @@ def transactions():
         try:
             for key in data:
                 setattr(transaction, key, data[key])
+
+            db.session.add(transaction)
+            db.session.commit()
+            print(transaction.car)
+            transaction.car.status = "sold"
             db.session.add(transaction)
             db.session.commit()
             return transaction.to_dict(), 201
