@@ -74,7 +74,7 @@ class Car(db.Model, SerializerMixin):
     spec = db.relationship("Specs", back_populates="car")
 
     # Rules
-    serialize_rules = ("-seller.cars", "-transaction.car")
+    serialize_rules = ("-seller.cars", "-transaction.car", "-spec")
 
 
 class Specs(db.Model, SerializerMixin):
@@ -93,6 +93,7 @@ class Specs(db.Model, SerializerMixin):
     mpg = db.Column(db.Integer, nullable=False)
     energy = db.Column(db.String, nullable=False)
     car = db.relationship("Car", back_populates="spec")
+    serialize_rules = ("-car_id",)
 
 
 class Transaction(db.Model, SerializerMixin):

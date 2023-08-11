@@ -251,6 +251,11 @@ def home():
 @app.route("/cars", methods=["GET", "POST"])
 def cars():
     if request.method == "GET":
+        print(flask_session)
+        if flask_session["session_id"] not in GLOBAL_SESSIONS:
+            # if not user:
+            return {"error": "Please login"}, 401
+
         all = Car.query.all()
         cars = []
         for car in all:
@@ -263,6 +268,7 @@ def cars():
         try:
             for key in data:
                 setattr(car, key, data[key])
+            print(car.listed_price)
             db.session.add(car)
             db.session.commit()
             return car.to_dict(rules=("-spec.car",)), 201
@@ -291,6 +297,8 @@ def get_car_by_id(id):
         except (IntegrityError, ValueError) as ie:
             return {"error": ie.args}, 422
     elif request.method == "DELETE":
+        db.session.delete(car)
+        db.session.commit()
         if car.status == "sold":
             return {"error": "can't delete sold car"}, 403
         else:
@@ -360,6 +368,7 @@ def get_specs_by_car_id(car_id):
 @app.route("/users/<int:id>", methods=["GET", "PATCH"])
 def user_page(id):
     user = User.query.filter(User.id == id).first()
+    print(user)
     if not user:
         return {"error": "user not found"}, 404
     if request.method == "GET":
@@ -462,10 +471,13 @@ def transactions():
 @app.route("/session")
 def session():
     user = User.query.filter(User.id == flask_session.get("user_id")).first()
-    if not user:
+    if (
+        "session_id" not in flask_session
+        or flask_session["session_id"] not in GLOBAL_SESSIONS
+    ):
         return {"error": "Please login"}, 401
     print(flask_session["user_id"])
-    return user.to_dict()
+    return user.to_dict(rules=("-cars",))
 
 
 @app.route("/login", methods=["POST"])
@@ -494,3 +506,31 @@ def logout():
 
 # def allowed_file(filename):
 #     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# @app.route("/photos", methods=["GET", "POST"])
+# def upload_file():
+#     if request.method == "POST":
+#         # check if the post request has the file part
+#         if "file" not in request.files:
+#             flash("No file part")
+#             return redirect(request.url)
+#         file = request.files["file"]
+#         # If the user does not select a file, the browser submits an
+#         # empty file without a filename.
+#         if file.filename == "":
+#             flash("No selected file")
+#             return redirect(request.url)
+#         if file and allowed_file(file.filename):
+#             filename = secure_filename(file.filename)
+#             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+#             return redirect(url_for("download_file", name=filename))
+#     return """
+#     <!doctype html>
+#     <title>Upload new File</title>
+#     <h1>Upload new File</h1>
+#     <form method=post enctype=multipart/form-data>
+#       <input type=file name=file>
+#       <input type=submit value=Upload>
+#     </form>
+#     """

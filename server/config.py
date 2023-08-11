@@ -6,6 +6,11 @@ from flask_bcrypt import Bcrypt
 import os
 from secretKeys import secret_key
 
+# from flask_uploads import UploadSet, configure_uploads, IMAGES
+
+# from flask import Flask, flash, request, redirect, url_for
+# from werkzeug.utils import secure_filename
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
 
@@ -28,6 +33,14 @@ migrate = Migrate(app, db)
 
 
 SESSION_TYPE = "sqlalchemy"
+
+
+# def allowed_file(filename):
+#     return (
+#         "." in filename
+#         and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
+#     )
+
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
