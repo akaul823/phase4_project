@@ -2,11 +2,13 @@
 import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import { UserContext } from "../../UserContext";
+import { useRouter } from "next/navigation";
 
 export default function CarDetail({ params: { id } }) {
   const [car, setCar] = useState(null);
   const [formData, setFormData] = useState({});
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchCarDetails() {
@@ -55,6 +57,9 @@ export default function CarDetail({ params: { id } }) {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
+      .then((transaction) => {
+        router.push("/MyCars");
+      })
       .catch((error) => {
         console.log(error);
       });
