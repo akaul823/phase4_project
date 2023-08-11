@@ -55,11 +55,11 @@ const NotLoggedIn = () => {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Selling Car
+                          Please Log In
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            You Have To Log In First To Sell Your Car.
+                            This feature is only accessbile to those logged in.
                           </p>
                         </div>
                       </div>
