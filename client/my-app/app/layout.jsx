@@ -23,7 +23,7 @@ import Nav from './Nav/Nav';
 import { UserProvider } from './UserContext'; // Import the UserProvider
 
 // export const metadata = {
-//   title: "Cars",
+//   title: "Cars",s
 //   description: "Trade or Buy Cars",
 // };
 

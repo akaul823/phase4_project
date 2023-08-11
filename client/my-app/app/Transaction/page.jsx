@@ -1,4 +1,5 @@
 "use client"
+"use client";
 import React from "react";
 import { UserContext } from "../UserContext";
 import { useState, useContext, useEffect } from "react";
@@ -26,35 +27,34 @@ const Transaction = () => {
     }
     fetchData();
   }, []);
-  const [formData, setFormData] = useState({})
+  // const [formData, setFormData] = useState({});
 
-  function handleData(e){
+  // function handleData(e) {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: parseInt(e.target.value),
+  //     buyer_id: loggedInUser.id,
+  //   });
+  // }
 
-    setFormData({
-      ...formData,
-      [e.target.name]: parseInt(e.target.value),
-      buyer_id: loggedInUser.id
-    });
-  }
+  // function handleSubmit(e) {
+  //   e.preventDefault();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    fetch("http://127.0.0.1:5555/transactions", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .catch((error) => {
-        console.log(error);
-      });
-    alert(`You have successfully purchased a car from the marketplace!`);
-    e.target.reset();
-  }
+  //   fetch("http://127.0.0.1:5555/transactions", {
+  //     method: "POST",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((res) => res.json())
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   alert(`You have successfully purchased a car from the marketplace!`);
+  //   e.target.reset();
+  // }
   // return (
   //   <div class="w-full max-w-lg mx-auto p-8">
   //     {Object.keys(loggedInUser).length > 0 ? (
@@ -83,7 +83,7 @@ const Transaction = () => {
   //             </div>
   //           ))}
   //       </div>
-  //       <div class="bg-white rounded-lg shadow-lg p-6"> 
+  //       <div class="bg-white rounded-lg shadow-lg p-6">
   //         <h2 class="text-lg font-medium mb-6">Buy Car</h2>
   //         <form onSubmit={handleSubmit}>
   //           <div class="grid grid-cols-2 gap-6">
@@ -190,69 +190,6 @@ const Transaction = () => {
               </div>
             </div>
           ))}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-lg font-medium mb-6">Buy Car</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="col-span-2 sm:col-span-1">
-                  <label
-                    htmlFor="card-number"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Agreed Upon Purchase Price
-                  </label>
-                  <input
-                    type="text"
-                    name="price_paid"
-                    id="card-number"
-                    placeholder="Enter price"
-                    onChange={handleData}
-                    className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <label
-                    htmlFor="expiration-date"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Car ID
-                  </label>
-                  <input
-                    type="text"
-                    name="car_id"
-                    id="expiration-date"
-                    placeholder="Enter the car ID"
-                    onChange={handleData}
-                    className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <label
-                    htmlFor="cvv"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    User ID
-                  </label>
-                  <input
-                    type="text"
-                    name="buyer_id"
-                    id="cvv"
-                    placeholder="Enter your user ID"
-                    onChange={handleData}
-                    className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              <div className="mt-8">
-                <button
-                  type="submit"
-                  className="w-full bg-green-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg focus:outline-none"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
       ) : (
         <NotLoggedIn />
