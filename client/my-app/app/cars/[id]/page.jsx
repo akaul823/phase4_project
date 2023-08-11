@@ -42,6 +42,7 @@ export default function CarDetail({ params: { id } }) {
         <h1 className="text-3xl font-semibold mb-4">
           {car.car_make} {car.car_model}
         </h1>
+        <p className="text-gray-600 mb-2">Marketplace ID: {car.id}</p>
         <p className="text-gray-600 mb-2">Status: {car.status}</p>
         <p className="text-gray-600 mb-2">Listed Price: ${car.listed_price}</p>
         <p className="text-gray-600 mb-4">Description: {car.description}</p>

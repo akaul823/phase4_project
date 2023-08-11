@@ -23,6 +23,33 @@ const Transaction = () => {
     }
     fetchData();
   }, []);
+  const [formData, setFormData] = useState({})
+
+  function handleData(e){
+    setFormData({
+      ...formData,
+      [e.target.name]: parseInt(e.target.value),
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    fetch("http://127.0.0.1:5555/transactions", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .catch((error) => {
+        console.log(error);
+      });
+    alert(`You have successfully purchased a car from the marketplace!`);
+    e.target.reset();
+  }
   return (
     <div class="w-full max-w-lg mx-auto p-8">
       <div>
@@ -30,34 +57,43 @@ const Transaction = () => {
             <div key={transaction.id} className="group relative">
               <div className="mt-4 flex justify-between">
                 <div>
+                Transaction Amount
                  <h3 className="text-sm text-gray-700">
                   <span aria-hidden="true" className="absolute inset-0" />
-                  {transaction.listed_price}
+                  {"$"+transaction.price_paid}
                   </h3>
               </div>
-                 <p className="text-sm font-medium text-gray-900">
+              <div>
+                Time of Sale
+                 <h3 className="text-sm text-gray-700">
+                  <span aria-hidden="true" className="absolute inset-0" />
                   {transaction.date}
-                  </p>
+                  </h3>
+              </div>
+                 {/* <p className="text-sm font-medium text-gray-900">
+                  {transaction.date}
+                  </p> */}
              </div>
             </div>
           ))}
       </div>
-      {/* <div class="bg-white rounded-lg shadow-lg p-6"> */}
-        {/* <h2 class="text-lg font-medium mb-6">Payment Information</h2>
-        <form>
+      <div class="bg-white rounded-lg shadow-lg p-6"> 
+        <h2 class="text-lg font-medium mb-6">Buy Car</h2>
+        <form onSubmit={handleSubmit}>
           <div class="grid grid-cols-2 gap-6">
             <div class="col-span-2 sm:col-span-1">
               <label
                 for="card-number"
                 class="block text-sm font-medium text-gray-700 mb-2"
               >
-                Card Number
+                Agreed Upon Purchase Price
               </label>
               <input
                 type="text"
-                name="card-number"
+                name="price_paid"
                 id="card-number"
-                placeholder="0000 0000 0000 0000"
+                placeholder="Enter price"
+                onChange={handleData}
                 class="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -66,13 +102,14 @@ const Transaction = () => {
                 for="expiration-date"
                 class="block text-sm font-medium text-gray-700 mb-2"
               >
-                Expiration Date
+                Car ID
               </label>
               <input
                 type="text"
-                name="expiration-date"
+                name="car_id"
                 id="expiration-date"
-                placeholder="MM / YY"
+                placeholder="Enter the car ID"
+                onChange={handleData}
                 class="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -81,17 +118,18 @@ const Transaction = () => {
                 for="cvv"
                 class="block text-sm font-medium text-gray-700 mb-2"
               >
-                CVV
+                User ID
               </label>
               <input
                 type="text"
-                name="cvv"
+                name="buyer_id"
                 id="cvv"
-                placeholder="000"
+                placeholder="Enter your user ID"
+                onChange={handleData}
                 class="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
               />
             </div>
-            <div class="col-span-2 sm:col-span-1">
+            {/* <div class="col-span-2 sm:col-span-1">
               <label
                 for="card-holder"
                 class="block text-sm font-medium text-gray-700 mb-2"
@@ -103,9 +141,10 @@ const Transaction = () => {
                 name="card-holder"
                 id="card-holder"
                 placeholder="Full Name"
+                onChange={handleData}
                 class="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
               />
-            </div>
+            </div> */}
           </div>
           <div class="mt-8">
             <button
@@ -116,7 +155,7 @@ const Transaction = () => {
             </button>
           </div>
         </form>
-      </div> */}
+      </div>
     </div>
   );
 };
