@@ -443,6 +443,8 @@ def transactions():
         transaction = Transaction()
         try:
             for key in data:
+                if (key == "status"):
+                    data[key] = "sold"
                 setattr(transaction, key, data[key])
             db.session.add(transaction)
             db.session.commit()
@@ -450,7 +452,7 @@ def transactions():
         except (IntegrityError, ValueError) as ie:
             return {"error": ie.args}, 422
     elif request.method == "GET":
-        print("---------------------------", flask_session["user_id"])
+        # print("---------------------------", flask_session["user_id"])
         sold_cars = Car.query.filter(
             and_(Car.seller_id == flask_session["user_id"], Car.status == "selling")
         ).all()

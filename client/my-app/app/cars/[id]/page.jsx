@@ -34,7 +34,7 @@ export default function CarDetail({ params: { id } }) {
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md">
       <div className="w-full h-64 rounded-lg overflow-hidden">
           <img
-            src={"https://static.cargurus.com/images/article/2019/03/27/12/41/2019_used_car_awards-pic-4728440699118486809-1600x1200.jpeg"}
+            src={car.pictures}
             alt={`${car.car_make} ${car.car_model}`}
             className="object-cover w-full h-full"
           />

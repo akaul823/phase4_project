@@ -2,7 +2,7 @@
 import React from "react";
 import { UserContext } from "../UserContext";
 import { useState, useContext, useEffect } from "react";
-import CarLink from "../Cars/CarLink";
+import CarLink from "../cars/CarLink";
 import { useRouter } from "next/navigation";
 import NotLoggedIn from "../notloggedin/page";
 

@@ -1,10 +1,49 @@
+"use client"
 import React from "react";
+import { useState, useEffect } from "react";
 
 const Transaction = () => {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("http://127.0.0.1:5555/transactions", {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setTransactions(data);
+        } else {
+          console.error("Error fetching data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <div class="w-full max-w-lg mx-auto p-8">
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-lg font-medium mb-6">Payment Information</h2>
+      <div>
+      {transactions.map((transaction) => (
+            <div key={transaction.id} className="group relative">
+              <div className="mt-4 flex justify-between">
+                <div>
+                 <h3 className="text-sm text-gray-700">
+                  <span aria-hidden="true" className="absolute inset-0" />
+                  {transaction.listed_price}
+                  </h3>
+              </div>
+                 <p className="text-sm font-medium text-gray-900">
+                  {transaction.date}
+                  </p>
+             </div>
+            </div>
+          ))}
+      </div>
+      {/* <div class="bg-white rounded-lg shadow-lg p-6"> */}
+        {/* <h2 class="text-lg font-medium mb-6">Payment Information</h2>
         <form>
           <div class="grid grid-cols-2 gap-6">
             <div class="col-span-2 sm:col-span-1">
@@ -77,7 +116,7 @@ const Transaction = () => {
             </button>
           </div>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 };
