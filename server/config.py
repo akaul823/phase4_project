@@ -28,7 +28,6 @@ app.config["SESSION_COOKIE_SECURE"] = "True"
 # UPLOAD_FOLDER = "/static"
 # app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
-# ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 flask_bcrypt = Bcrypt(app)
 app.secret_key = secret_key
 CORS(app, supports_credentials=True)

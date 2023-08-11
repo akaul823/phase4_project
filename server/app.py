@@ -30,9 +30,9 @@ def home():
 def cars():
     if request.method == "GET":
         print(flask_session)
-        if flask_session["session_id"] not in GLOBAL_SESSIONS:
-            # if not user:
-            return {"error": "Please login"}, 401
+        # if flask_session["session_id"] not in GLOBAL_SESSIONS:
+        #     # if not user:
+        #     return {"error": "Please login"}, 401
 
         all = Car.query.all()
         cars = []

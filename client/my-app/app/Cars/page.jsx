@@ -33,7 +33,7 @@ export default function Example() {
     }
     fetchData();
   }, []);
-
+  console.log(cars);
   const filteredResults = cars.filter((car) =>
     (car.car_make + " " + car.car_model)
       .toLowerCase()
