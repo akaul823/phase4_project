@@ -4,16 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
+sqlalchemy-serializer = "*"
+"sqlalchemy.orm" = "*"
+flask-bcrypt = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-cors = "*"
-flask-bcrypt = "*"
-sqlalchemy-serializer = "*"
-werkzeug = "*"
-flask-uploads = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+python_full_version = "3.8.13"
