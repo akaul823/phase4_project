@@ -227,6 +227,7 @@ def transactions():
             db.session.commit()
             print(transaction.car)
             transaction.car.status = "sold"
+            transaction.car.seller_id = data["buyer_id"]
             db.session.add(transaction)
             db.session.commit()
             return transaction.to_dict(), 201

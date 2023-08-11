@@ -16,6 +16,7 @@ export default function CarDetail({ params: { id } }) {
           const data = await response.json();
           setCar(data);
           console.log(data);
+          console.log(data.seller_id, loggedInUser.id, "adsasdasd");
         } else {
           console.error("Error fetching car details");
         }
@@ -44,7 +45,7 @@ export default function CarDetail({ params: { id } }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    console.log("BUYING");
     fetch("http://127.0.0.1:5555/transactions", {
       method: "POST",
       credentials: "include",
@@ -77,8 +78,7 @@ export default function CarDetail({ params: { id } }) {
         <p className="text-gray-600 mb-2">Marketplace ID: {car.id}</p>
         <p className="text-gray-600 mb-2">Status: {car.status}</p>
         <p className="text-gray-600 mb-2">Listed Price: ${car.listed_price}</p>
-        <p className="text-gray-600 mb-4">Description: {car.description}</p>
-
+        {/* <p className="text-gray-600 mb-4">Description: {car.description}</p> */}
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-2">Specifications</h2>
           <p>Doors: {car.spec[0].doors}</p>
@@ -92,7 +92,6 @@ export default function CarDetail({ params: { id } }) {
           <p>Transmission: {car.spec[0].transmission}</p>
           <p>VIN Number: {car.spec[0].vin_num}</p>
         </div>
-
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-2">Seller Information</h2>
           <p>Full Name: {car.seller.fullname}</p>
@@ -100,6 +99,7 @@ export default function CarDetail({ params: { id } }) {
           <p>Phone: {car.seller.phone}</p>
           <p>Address: {car.seller.address}</p>
         </div>
+        {/* {car.seller_id !== loggedInUser.id ? ( */}
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-lg font-medium mb-6">Buy Car</h2>
           <form onSubmit={handleSubmit}>
@@ -116,53 +116,25 @@ export default function CarDetail({ params: { id } }) {
                   name="price_paid"
                   id="card-number"
                   placeholder="Enter price"
+                  // value={car.listed_price}
                   onChange={handleData}
                   className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
                 />
               </div>
-              {/* <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="expiration-date"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Car ID
-                </label>
-                <input
-                  type="text"
-                  name="car_id"
-                  id="expiration-date"
-                  placeholder="Enter the car ID"
-                  onChange={handleData}
-                  className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
-                />
-              </div> */}
-              {/* <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="cvv"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  User ID
-                </label>
-                <input
-                  type="text"
-                  name="buyer_id"
-                  id="cvv"
-                  placeholder="Enter your user ID"
-                  onChange={handleData}
-                  className="w-full py-3 px-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
-                />
-              </div> */}
             </div>
+
             <div className="mt-8">
               <button
+                // href="/MyCars"
                 type="submit"
                 className="w-full bg-green-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg focus:outline-none"
               >
-                By Now
+                Buy Now
               </button>
             </div>
           </form>
         </div>
+        {/* ) : null} */}
       </div>
     </div>
   );
