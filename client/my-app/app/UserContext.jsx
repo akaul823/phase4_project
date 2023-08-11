@@ -17,7 +17,7 @@ export function UserProvider({ children }) {
           if (user) {
             setLoggedInUser(user);
           } else {
-            console.log(loggedInUser);
+            // console.log(loggedInUser);
           }
         } else {
           console.error("Error fetching data");

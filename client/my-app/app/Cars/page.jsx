@@ -8,7 +8,6 @@ import { UserContext } from "../UserContext";
 export default function Example() {
   const [cars, setCars] = useState([]);
   const [search, setSearch] = useState("");
-  const [filteredCars, setFilteredCars] = useState([]);
   const { loggedInUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -19,9 +18,8 @@ export default function Example() {
         });
         if (response.ok) {
           const data = await response.json();
-          setCars(data);
-          console.log(data);
-          // setCars(data.filter((car) => car.seller_id !== loggedInUser.id));
+          const sellingCars = data.filter((car) => car.status === "selling");
+          setCars(sellingCars);
         } else {
           console.error("Error fetching data");
         }
@@ -32,22 +30,11 @@ export default function Example() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const filteredResults = cars.filter((car) =>
-  //     (car.car_make + " " + car.car_model)
-  //       .toLowerCase()
-  //       .includes(search.toLowerCase())
-  //   );
-  //   setFilteredCars(filteredResults);
-  // }, [search]);
-
   const filteredResults = cars.filter((car) =>
     (car.car_make + " " + car.car_model)
       .toLowerCase()
       .includes(search.toLowerCase())
   );
-  // setFilteredCars(filteredResults);
-  console.log(filteredResults);
 
   return (
     <div className="bg-white">

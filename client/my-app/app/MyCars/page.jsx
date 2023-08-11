@@ -22,8 +22,6 @@ const MyCars = () => {
         if (response.ok) {
           const data = await response.json();
           setMyCars(data.cars);
-          console.log(data.cars);
-          // console.log(data.cars);
         } else {
           console.error("Error fetching data");
         }

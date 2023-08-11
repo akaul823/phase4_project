@@ -21,7 +21,6 @@ export default function SellCar() {
         [e.target.name]: e.target.value,
       });
     }
-    // console.log(specData)
   }
 
   function handleCarData(e) {
@@ -38,14 +37,12 @@ export default function SellCar() {
         seller_id: loggedInUser.id,
       });
     }
-    // console.log(carData)
   }
 
   function handleFormSubmit(e) {
     e.preventDefault();
 
     carData.description = "akjsdhf";
-    // console.log(carData);
     fetch("http://127.0.0.1:5555/cars", {
       method: "POST",
       credentials: "include",
@@ -56,10 +53,7 @@ export default function SellCar() {
     })
       .then((res) => res.json())
       .then((car) => {
-        console.log(car);
-        console.log("________________________");
         specData.car_id = car.id;
-        console.log(specData);
         fetch("http://127.0.0.1:5555/specs", {
           method: "POST",
           credentials: "include",

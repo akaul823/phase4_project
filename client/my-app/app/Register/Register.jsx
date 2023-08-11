@@ -30,11 +30,9 @@ export default function Register() {
 
   function handleUsername(e) {
     setNewUser((prevUser) => ({ ...prevUser, username: e.target.value }));
-    console.log(newUser);
   }
   function handlePassword(e) {
     setNewUser((prevUser) => ({ ...prevUser, password_hash: e.target.value }));
-    console.log(newUser);
   }
 
   function handleFirstName(e) {

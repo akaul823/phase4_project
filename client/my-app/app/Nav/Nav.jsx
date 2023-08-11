@@ -10,7 +10,7 @@ const navigation = [
   { name: "Car Market", href: "/", current: true },
   { name: "Sell Car", href: "/SellCar", current: false },
   { name: "My Cars", href: "/MyCars", current: false },
-  { name: "Transactions", href: "/Transactions", current: false },
+  { name: "Transactions", href: "/Transaction", current: false },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -23,15 +23,12 @@ export default function Navigation() {
     setShowComponent(true);
   };
   function handleSignOut() {
-    console.log(loggedInUser);
     fetch("http://127.0.0.1:5555/logout", {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {
       if (res.ok) {
-        console.log("successfull log out");
         setLoggedInUser({});
-        // setShowReg(false);
       }
     });
   }
@@ -95,16 +92,12 @@ export default function Navigation() {
                   >
                     Register
                   </Link>
-                  {/* Render Register component if showComponent is true */}
                   <Link
                     href="/Login"
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full"
                   >
                     Log In
                   </Link>
-                  {/* <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
-                  Log In
-                </button> */}
                 </div>
               ) : null}
               {Object.keys(loggedInUser).length > 0 ? (
@@ -166,7 +159,7 @@ export default function Navigation() {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Settings
+                              Edit Profile
                             </Link>
                           )}
                         </Menu.Item>

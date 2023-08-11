@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 function CarLink({ car }) {
-  console.log(car[0]);
   return (
     <Link href={`/cars/${car.id}/`}>
       <div className="group relative">

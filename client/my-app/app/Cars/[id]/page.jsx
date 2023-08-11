@@ -11,7 +11,6 @@ export default function CarDetail({ params: { id } }) {
         if (response.ok) {
           const data = await response.json();
           setCar(data);
-          console.log(data);
         } else {
           console.error("Error fetching car details");
         }

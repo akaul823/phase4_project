@@ -146,6 +146,7 @@ def get_specs_by_car_id(car_id):
 @app.route("/users/<int:id>", methods=["GET", "PATCH"])
 def user_page(id):
     user = User.query.filter(User.id == id).first()
+    print(user)
     if not user:
         return {"error": "user not found"}, 404
     if request.method == "GET":
@@ -248,7 +249,10 @@ def transactions():
 @app.route("/session")
 def session():
     user = User.query.filter(User.id == flask_session.get("user_id")).first()
-    if not user:
+    if (
+        "session_id" not in flask_session
+        or flask_session["session_id"] not in GLOBAL_SESSIONS
+    ):
         return {"error": "Please login"}, 401
     print(flask_session["user_id"])
     return user.to_dict(rules=("-cars",))
