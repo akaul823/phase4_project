@@ -4,7 +4,7 @@ import { UserProvider } from "./UserContext";
 import Nav from "./Nav/Nav";
 
 // export const metadata = {
-//   title: "Cars",
+//   title: "Cars",s
 //   description: "Trade or Buy Cars",
 // };
 
