@@ -3,11 +3,6 @@ import "@styles/globals.css";
 import { UserProvider } from "./UserContext";
 import Nav from "./Nav/Nav";
 
-// export const metadata = {
-//   title: "Cars",s
-//   description: "Trade or Buy Cars",
-// };
-
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">

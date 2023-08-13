@@ -1,34 +1,134 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Car Marketplace Web Application - Frontend
 
-## Getting Started
+Welcome to the frontend of the Car Marketplace Web Application! This frontend code is responsible for creating an intuitive and user-friendly interface for users to buy and sell cars online.
 
-First, run the development server:
+## Introduction
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+The Car Marketplace Web Application frontend provides an engaging user experience for individuals looking to explore and interact with car listings and transactions. It's built with a modern approach to ensure responsiveness and seamless navigation.
+
+## Technologies Used
+
+- Next.js
+- Next Router
+- React
+- Tailwind CSS
+
+## Installation
+
+1. Clone the repository:
+   ```sh
+   git clone git@github.com:akaul823/phase4_project.git
+   cd /client
+   ```
+
+2. Install the required dependencies:
+   ```sh
+   npm install next
+   ```
+
+3. Run the application:
+   ```sh
+   npm start
+   ```
+
+## Project Structure
+
+The frontend codebase is organized as follows:
+
+- **/App**: The root folder containing the Next.js application.
+  - **/Login**: The route for user authentication and login.
+  - **/Nav**: The navigation component for consistent navigation throughout the app.
+  - **/SellCar**: The route for users to list their cars for sale.
+  - **/ProfilePage**: The user profile page showing personal information.
+  - **/Register**: The route for new user registration.
+  - **/Transactions**: The route displaying transaction history.
+  - **/Mycars**: The user's own cars listing.
+  - **/cars**: The main cars listing route.
+  - **/cars/carId**: The route for individual car details.
+
+The application follows a component hierarchy where the highest-level layout is managed by the `RootLayout` component, and different pages are rendered within it.
+
+## Key Components
+
+### RootLayout
+
+The `RootLayout` component serves as the highest-level layout component. It wraps the entire application and provides a consistent structure across different pages.
+
+```jsx
+import React from "react";
+import { UserProvider } from "./UserContext";
+import Nav from "./Nav/Nav";
+
+const RootLayout = ({ children }) => {
+  return (
+    <html lang="en">
+      <body>
+        <UserProvider>
+          <Nav />
+          <main>{children}</main>
+        </UserProvider>
+      </body>
+    </html>
+  );
+};
+
+export default RootLayout;
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### UserContext
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The `UserContext` context provides global user data using the `useContext` hook. It fetches the user's data upon initialization and makes it available throughout the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```jsx
+import React, { createContext, useEffect, useState } from "react";
 
-## Learn More
+export const UserContext = createContext();
 
-To learn more about Next.js, take a look at the following resources:
+export function UserProvider({ children }) {
+  // ...
+  // (UserProvider implementation, fetch user data)
+  // ...
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Login
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The `Login` component handles user authentication by sending login requests to the backend API. It uses the `UserContext` to manage user data.
 
-## Deploy on Vercel
+```jsx
+import React, { useContext } from "react";
+import { UserContext } from "../UserContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+const Login = () => {
+  // ...
+  // (Login component implementation)
+  // ...
+};
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Certainly! Here's an updated explanation in your README about how user authorization and session management work in your frontend codebase:
+
+---
+
+## User Authorization and Session Management
+
+In this project, user authorization and session management play a crucial role in providing a secure and seamless experience for users. This is achieved through a combination of frontend and backend code. Let's dive into how it works:
+
+### Frontend: User Authentication/Session Persistence
+
+In the frontend code, user authentication is handled using React and the Next.js framework. The `Login` component is responsible for handling user login. Here's a breakdown of how it works:
+
+1. When a user enters their credentials and clicks the "Sign in" button, the `handleLogIn` function is triggered.
+2. The `handleLogIn` function constructs a `fetch` request to the server's login endpoint (`http://127.0.0.1:5555/login`). It sends the user's credentials in the request body as JSON.
+3. The `credentials: "include"` option is set in the fetch request headers, indicating that cookies should be included with cross-origin requests.
+4. If the server responds with a successful status (200 OK), the user's data is extracted from the response JSON, and the `setLoggedInUser` function from the `UserContext` is used to update the user's login status in the application.
+
+### Backend: Server-Side Session Management
+
+The backend of the application (not provided in this documentation) plays a vital role in session management. When a user successfully logs in, the server creates a session and assigns a session cookie. This cookie is sent with subsequent requests, enabling the server to identify and authenticate the user.
+
+It's important to note that this documentation focuses on the frontend implementation of user authorization and session management. The backend part, including the server-side session management, is essential to make the entire process secure and functional.
+
+
