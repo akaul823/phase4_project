@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function CarLink({ car }) {
   return (
-    <Link href={`/cars/${car.id}/`}>
+    <Link href={`/Cars/${car.id}/`}>
       <div className="group relative">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
           <img
